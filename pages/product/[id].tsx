@@ -1,19 +1,13 @@
 import Image from "next/image"
 import styles from "../../styles/Product.module.scss"
 import { useState } from 'react';
+import { InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps } from 'next'
 
 type Props = {}
 
-export default function Product({ }: Props) {
+export default function Product({ pizza }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [size, setSize] = useState(0);
-
-    const pizza = {
-        id: 1,
-        img: "/img/pizza.png",
-        name: "CAMPAGNOLA",
-        price: [19.9, 23.9, 27.9],
-        desc: "lorem ipsum dolor sit amet"
-    }
 
     return (
         <div className={styles.container}>
@@ -87,4 +81,12 @@ export default function Product({ }: Props) {
             </div>
         </div>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+    return {
+        props: {
+
+        }
+    }
 }
