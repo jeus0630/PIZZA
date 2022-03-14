@@ -3,6 +3,7 @@ import styles from "../../styles/Product.module.scss"
 import { useState } from 'react';
 import { InferGetServerSidePropsType } from 'next'
 import { GetServerSideProps } from 'next'
+import { useRouter } from "next/router";
 
 type Props = {}
 
@@ -18,8 +19,8 @@ export default function Product({ pizza }: InferGetServerSidePropsType<typeof ge
             </div>
             <div className={styles.right}>
                 <h1 className={styles.title}>{pizza.name}</h1>
-                <span className={styles.price}>${pizza.price[size]}</span>
-                <p className={styles.desc}>${pizza.desc}</p>
+                <span className={styles.price}>${pizza.prices[size]}</span>
+                <p className={styles.desc}>{pizza.desc}</p>
                 <h3 className={styles.choose}>Choose the size</h3>
                 <div className={styles.sizes}>
                     <div className={styles.size} onClick={() => setSize(0)}>
@@ -84,9 +85,24 @@ export default function Product({ pizza }: InferGetServerSidePropsType<typeof ge
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    return {
-        props: {
 
+    try {
+        const res = await fetch(`http://localhost:3000/api/products/${params.id}`);
+        const data = await res.json();
+        console.log(data);
+
+        return {
+            props: {
+                pizza: data
+            }
+        }
+    } catch (err) {
+        console.log(err);
+
+        return {
+            props: {
+                pizza: 1
+            }
         }
     }
 }
