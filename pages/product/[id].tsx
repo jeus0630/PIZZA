@@ -1,15 +1,18 @@
 import Image from "next/image"
 import styles from "../../styles/Product.module.scss"
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useRef } from 'react';
 import { InferGetServerSidePropsType } from 'next'
 import { GetServerSideProps } from 'next'
 import { useRouter } from "next/router";
 import { totalmem } from "os";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { addCart } from "../../redux/cartSlice";
 
 type Props = {}
 
-type stateType = { price: number; size: 0 | 1 | 2; ingredients: number; total: number }
-type ActionType = | { type: "sizeChoose"; payload: { size: 0 | 1 | 2, price: number }; } | { type: "ingredientChoose"; payload: number; } | { type: "totalChoose"; payload: number; } | { type: "initPrice"; payload: number; }
+type stateType = { price: number; size: 0 | 1 | 2; total: number, ingredients: string[] }
+type ActionType = | { type: "sizeChoose"; payload: { size: 0 | 1 | 2, price: number }; } | { type: "ingredientChoose"; payload: { type: 'minus' | 'plus'; name: string; price: number }; } | { type: "totalChoose"; payload: number; } | { type: "initPrice"; payload: number; }
 type reducerType = (state: stateType, action: ActionType) => stateType;
 
 const reducer: reducerType = (state, action) => {
@@ -35,10 +38,18 @@ const reducer: reducerType = (state, action) => {
                 }
             }
         case "ingredientChoose":
-            const ingredient = action.payload * state.total;
+            const ingredient = action.payload.price * state.total;
+            let ingredients = [''];
+            if (action.payload.type === 'plus') {
+                ingredients = [...state.ingredients, action.payload.name];
+            } else {
+                ingredients = state.ingredients.filter(ingredient => ingredient !== action.payload.name);
+            }
+
             return {
                 ...state,
-                price: state.price + ingredient
+                price: state.price + ingredient,
+                ingredients
             }
         case "totalChoose":
             const eachPrice = state.price / state.total;
@@ -61,14 +72,28 @@ const reducer: reducerType = (state, action) => {
 const initialState: stateType = {
     price: 0,
     size: 0,
-    ingredients: 0,
-    total: 1
+    total: 1,
+    ingredients: ['']
 };
 
 
 export default function Product({ pizza }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
     const [state, dispatch] = useReducer(reducer, initialState);
+    const reduxDispatch = useDispatch<AppDispatch>();
+    const router = useRouter();
+
+    const addCartHandler = () => {
+        const payload = {
+            total: state.price,
+            quantity: state.total,
+            extras: state.ingredients,
+            name: pizza.desc,
+            img: pizza.img
+        }
+        reduxDispatch(addCart({ ...payload }));
+        router.push("/cart");
+    }
 
     useEffect(() => {
         dispatch({ type: "initPrice", payload: pizza.prices[0] });
@@ -86,11 +111,11 @@ export default function Product({ pizza }: InferGetServerSidePropsType<typeof ge
     const optionHandler = (e: React.ChangeEvent) => {
         const target = e.target as HTMLInputElement;
         const price = target.dataset.price;
-
+        const name = target.name;
         if (target.checked) {
-            price && dispatch({ type: "ingredientChoose", payload: parseInt(price, 10) });
+            price && dispatch({ type: "ingredientChoose", payload: { type: 'plus', name, price: parseInt(price, 10) } });
         } else {
-            price && dispatch({ type: "ingredientChoose", payload: -parseInt(price, 10) });
+            price && dispatch({ type: "ingredientChoose", payload: { type: 'minus', name, price: -parseInt(price, 10) } });
         }
     }
 
@@ -146,7 +171,7 @@ export default function Product({ pizza }: InferGetServerSidePropsType<typeof ge
                 </div>
                 <div className={styles.add}>
                     <input type="number" defaultValue={1} className={styles.quantity} onChange={totalHandler} min={1} />
-                    <button className={styles.button}>Add to Cart</button>
+                    <button className={styles.button} onClick={addCartHandler}>Add to Cart</button>
                 </div>
             </div>
         </div>
@@ -158,7 +183,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     try {
         const res = await fetch(`http://localhost:3000/api/products/${params.id}`);
         const data = await res.json();
-        console.log(data);
 
         return {
             props: {
