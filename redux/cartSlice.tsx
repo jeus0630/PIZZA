@@ -37,6 +37,9 @@ const slice = createSlice({
                 ...state.products,
                 data
             ]
+        },
+        resetCart: (state) => {
+            return initialState;
         }
     },
     extraReducers: (builder) => {
@@ -44,5 +47,5 @@ const slice = createSlice({
     },
 });
 
-export const { addCart } = slice.actions;
+export const { addCart, resetCart } = slice.actions;
 export default slice.reducer;
