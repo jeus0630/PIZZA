@@ -10,6 +10,7 @@ import {
 } from "@paypal/react-paypal-js";
 import { useRouter } from "next/router";
 import cartSlice, { resetCart } from "../../redux/cartSlice";
+import OrderDetail from "../../components/OrderDetail";
 type Props = {}
 
 export default function index({ }: Props) {
@@ -20,6 +21,7 @@ export default function index({ }: Props) {
     const [open, setOpen] = useState(false);
     const state = useSelector((state: RootState) => state.cart);
     const [total, setTotal] = useState(0);
+    const [cash, setCash] = useState(false);
     const router = useRouter();
     const dispatch = useDispatch();
     useEffect(() => {
@@ -109,7 +111,7 @@ export default function index({ }: Props) {
                         createOrder({
                             customer: shipping.name.full_name,
                             address: shipping.address.address_line_1,
-                            total: state.total,
+                            total: total,
                             method: 1
                         })
                     });
@@ -195,7 +197,7 @@ export default function index({ }: Props) {
                     {
                         open ? (
                             <div className={styles.paymentMethods}>
-                                <button className={styles.payButton}>CASH ON DELIVERY</button>
+                                <button className={styles.payButton} onClick={() => setCash(true)}>CASH ON DELIVERY</button>
                                 <PayPalScriptProvider
                                     options={{
                                         "client-id": "AalRqZ9gQ9jB2-Qvsqu30ii9z7TMiffhT_fqu7JfQelZ31LgjZ-cOYIoNAVYvhvfsVvy3kEZxEpTAaS6",
@@ -213,6 +215,11 @@ export default function index({ }: Props) {
                     }
                 </div>
             </div>
+            {
+                cash && (
+                    <OrderDetail total={total} createOrder={createOrder}></OrderDetail>
+                )
+            }
         </div >
     );
 }

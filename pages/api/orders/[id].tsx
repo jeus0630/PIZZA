@@ -15,7 +15,12 @@ export default async function handler(
     const { method, query: { id } } = req;
 
     if (method === "GET") {
-
+        try {
+            const order = await Order.findById(id);
+            res.status(200).json(order);
+        } catch (err: any) {
+            res.status(500).json(err);
+        }
     }
 
     if (method === "PUT") {
@@ -23,6 +28,6 @@ export default async function handler(
     }
 
     if (method === "DELETE") {
-        
+
     }
 }

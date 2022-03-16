@@ -1,9 +1,11 @@
 import Image from "next/image"
 import styles from "../../styles/Order.module.scss"
+import { InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps } from 'next'
 
 type Props = {}
 
-export default function Order({ }: Props) {
+export default function Order({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
     const status = 0;
 
@@ -26,18 +28,18 @@ export default function Order({ }: Props) {
                         </tr>
                         <tr className={styles.tr}>
                             <td>
-                                <span className={styles.id}>12313564</span>
+                                <span className={styles.id}>{data._id}</span>
                             </td>
                             <td>
                                 <span className={styles.name}>
-                                    John Doe
+                                    {data.customer}
                                 </span>
                             </td>
                             <td>
-                                <span className={styles.address}>Elton st. 212-33 LA</span>
+                                <span className={styles.address}>{data.address}</span>
                             </td>
                             <td>
-                                <span className={styles.total}>$79.80</span>
+                                <span className={styles.total}>${data.total}</span>
                             </td>
                         </tr>
                     </table>
@@ -95,13 +97,13 @@ export default function Order({ }: Props) {
                 <div className={styles.wrapper}>
                     <h2 className={styles.title}>CART TOTAL</h2>
                     <div className={styles.totalText}>
-                        <b className={styles.totalTextTitle}>Subtotal:</b>$79.60
+                        <b className={styles.totalTextTitle}>Subtotal:</b>${data.total}
                     </div>
                     <div className={styles.totalText}>
                         <b className={styles.totalTextTitle}>Discount:</b>$0.00
                     </div>
                     <div className={styles.totalText}>
-                        <b className={styles.totalTextTitle}>Total:</b>$79.60
+                        <b className={styles.totalTextTitle}>Total:</b>${data.total}
                     </div>
                     <button disabled className={styles.button}>PAID</button>
                 </div>
@@ -109,4 +111,22 @@ export default function Order({ }: Props) {
 
         </div>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+
+    try {
+        const res = await fetch(`http://localhost:3000/api/orders/${params.id}`);
+        const data = await res.json();
+
+        return {
+            props: {
+                data
+            }
+        }
+    } catch (err) {
+        return {
+            notFound: true
+        }
+    }
 }
