@@ -4,6 +4,7 @@ import styles from "../../styles/Admin.module.scss";
 import { InferGetServerSidePropsType } from 'next'
 import { GetServerSideProps } from 'next'
 import { useState } from 'react';
+import NewPizza from '../../components/NewPizza';
 
 type Props = {}
 
@@ -35,6 +36,7 @@ export default function index({ products, orders }: InferGetServerSidePropsType<
 
     const [productList, setProductList] = useState(products);
     const [orderList, setorderList] = useState(orders);
+    const [newPizza, setNewPizza] = useState(false);
     const status = ["preparing", "on the way", "delivered"];
 
     const productDeleteHandler = async (id: string) => {
@@ -78,8 +80,15 @@ export default function index({ products, orders }: InferGetServerSidePropsType<
         }
     }
 
+    const addPizzaHandler = async () => {
+        setNewPizza(true);
+    }
+
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${newPizza ? styles.modal : ''}`}>
+            {
+                newPizza && <NewPizza setNewPizza={setNewPizza}></NewPizza>
+            }
             <div className={styles.item}>
                 <h1 className={styles.title}>Products</h1>
 
@@ -120,6 +129,9 @@ export default function index({ products, orders }: InferGetServerSidePropsType<
 
                     </tbody>
                 </table>
+                <div className={styles.btnWrap}>
+                    <button className={styles.newPizza} onClick={addPizzaHandler}>Add New Pizza</button>
+                </div>
             </div>
             <div className={styles.item}>
                 <h1 className={styles.title}>Orders</h1>
@@ -161,7 +173,17 @@ export default function index({ products, orders }: InferGetServerSidePropsType<
     )
 }
 
-export const getServerSideProps: GetServerSideProps<{ products: Product[], orders: Order[] }> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<{ products: Product[], orders: Order[] }> = async ({ params, req }) => {
+    const myCookie = req.cookies.token || "";
+
+    if (myCookie !== process.env.TOKEN) {
+        return {
+            redirect: {
+                destination: '/admin/login',
+                permanent: false,
+            },
+        }
+    }
 
     try {
         const productRes = await fetch(`http://localhost:3000/api/products/`);

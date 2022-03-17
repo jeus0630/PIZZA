@@ -32,9 +32,15 @@ export default function login({ }: Props) {
                 },
                 body: JSON.stringify(info)
             });
+
+            if (res.status !== 200) {
+                setError(true);
+                return;
+            }
+
             router.push("/admin");
         } catch (err) {
-            setError(true);
+            console.log(err);
         }
     };
 

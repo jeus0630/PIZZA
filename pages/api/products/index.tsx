@@ -9,7 +9,7 @@ type Data = {
     img: string,
     prices: number[],
     extraOptions: { text: string, price: number }[]
-}[]
+}[] | string
 
 export default async function handler(
     req: NextApiRequest,
@@ -29,6 +29,7 @@ export default async function handler(
     }
 
     if (method === "POST") {
+
         try {
             const product = await Product.create(req.body);
             res.status(201).json([product]);

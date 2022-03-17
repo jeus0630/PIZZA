@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   display: flex;
   padding: 50px;
 
@@ -24,6 +25,18 @@
         &:last-of-type {
           background-color: crimson;
         }
+      }
+    }
+    .btnWrap {
+      display: flex;
+      .newPizza {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: teal;
+        color: #fff;
+        font-weight: 300;
+        cursor: pointer;
       }
     }
   }
