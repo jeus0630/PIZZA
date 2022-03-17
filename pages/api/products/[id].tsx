@@ -27,4 +27,15 @@ export default async function handler(
             res.status(500).json(err);
         }
     }
+
+    if (method === "DELETE") {
+
+
+        try {
+            const product = await Product.findByIdAndDelete(id);
+            res.status(200).json(product);
+        } catch (err: any) {
+            res.status(500).json(err);
+        }
+    }
 }

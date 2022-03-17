@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  padding: 50px;
+
+  .item {
+    flex: 1;
+
+    .table {
+      width: 100%;
+      border-spacing: 20px;
+      text-align: left;
+
+      .button {
+        padding: 5px;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+
+        &:first-of-type {
+          margin-right: 10px;
+          background-color: teal;
+        }
+
+        &:last-of-type {
+          background-color: crimson;
+        }
+      }
+    }
+  }
+}
