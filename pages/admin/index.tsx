@@ -39,6 +39,10 @@ export default function index({ products, orders }: InferGetServerSidePropsType<
     const [newPizza, setNewPizza] = useState(false);
     const status = ["preparing", "on the way", "delivered"];
 
+    const productEditHandler = async (id: string) => {
+        console.log(id);
+    }
+
     const productDeleteHandler = async (id: string) => {
         try {
             const res = await fetch(`http://localhost:3000/api/products/${id}`, {
@@ -120,7 +124,6 @@ export default function index({ products, orders }: InferGetServerSidePropsType<
                                     <td>{product.title}</td>
                                     <td>{product.prices[0]}</td>
                                     <td>
-                                        <button className={styles.button}>Edit</button>
                                         <button className={styles.button} onClick={() => productDeleteHandler(product._id)}>Delete</button>
                                     </td>
                                 </tr>
