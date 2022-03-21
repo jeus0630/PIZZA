@@ -31,7 +31,7 @@ const Home: NextPage = ({ data }: InferGetServerSidePropsType<typeof getServerSi
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    const res = await fetch(`${process.env.VERCEL_URL}/api/products`);
+    const res = await fetch(`https://restaurant-jeus0630.vercel.app/api/products`);
     const data: Data = await res.json();
 
     return {
