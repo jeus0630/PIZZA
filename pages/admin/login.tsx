@@ -25,7 +25,7 @@ export default function Login({ }: Props) {
 
     const handleClick = async () => {
         try {
-            const res = await fetch("/api/login", {
+            const res = await fetch(`${process.env.VERCEL_URL}/api/login`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'

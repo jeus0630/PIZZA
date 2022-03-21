@@ -95,7 +95,7 @@ export default function NewPizza({ setNewPizza }: Props) {
     const createHandler = async () => {
 
         try {
-            const res = await fetch("/api/products/", {
+            const res = await fetch(`${process.env.VERCEL_URL}/api/products/`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'

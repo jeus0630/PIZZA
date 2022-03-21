@@ -45,7 +45,7 @@ export default function Index({ }: Props) {
         method: number;
     }) => {
         try {
-            const res = await fetch("/api/orders", {
+            const res = await fetch(`${process.env.VERCEL_URL}/api/orders`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'

@@ -21,9 +21,9 @@ export default function PizzaList({ pizzaList }: Props) {
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos repellendus culpa nobis. Dolorum, illum deleniti? Sed aperiam iure excepturi, dicta eligendi vitae fugit praesentium voluptatem voluptate, libero, sint vel dolore.
             </p>
             <div className={styles.wrapper}>
-                {/* {
+                {
                     pizzaList ? pizzaList?.map(pizza => <PizzaCard key={pizza._id} pizza={pizza}></PizzaCard>) : null
-                } */}
+                }
             </div>
         </div>
     )

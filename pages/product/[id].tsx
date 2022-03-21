@@ -181,7 +181,7 @@ export default function Product({ pizza }: InferGetServerSidePropsType<typeof ge
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     try {
-        const res = await fetch(`/api/products/${params?.id}`);
+        const res = await fetch(`${process.env.VERCEL_URL}/api/products/${params?.id}`);
         const data = await res.json();
 
         return {

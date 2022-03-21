@@ -28,5 +28,5 @@
     "eslint-config-next": "12.1.0",
     "typescript": "4.6.2"
   },
-  "proxy": "https://pizza-102ja6kor-jeus0630.vercel.app/"
+  "proxy": "https://restaurant-jeus0630.vercel.app/"
 }
