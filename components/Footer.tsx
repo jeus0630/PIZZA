@@ -7,7 +7,7 @@ export default function Footer({ }: Props) {
     return (
         <div className={styles.container}>
             <div className={styles.item}>
-                <Image src="/img/bg.png" layout="fill" alt="" objectFit="cover"></Image>
+                <Image src="/img/bg.png" layout="fill" alt="footer bg" objectFit="cover"></Image>
             </div>
             <div className={styles.item}>
                 <div className={styles.card}>

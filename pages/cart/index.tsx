@@ -13,7 +13,7 @@ import cartSlice, { resetCart } from "../../redux/cartSlice";
 import OrderDetail from "../../components/OrderDetail";
 type Props = {}
 
-export default function index({ }: Props) {
+export default function Index({ }: Props) {
 
     // This values are the props in the UI
     const currency = "USD";
@@ -145,7 +145,7 @@ export default function index({ }: Props) {
                                                 src={product.img}
                                                 layout="fill"
                                                 objectFit="cover"
-                                                alt=""
+                                                alt="product image"
                                             />
                                         </div>
                                     </td>

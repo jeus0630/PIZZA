@@ -22,7 +22,7 @@ export default function PizzaList({ pizzaList }: Props) {
             </p>
             <div className={styles.wrapper}>
                 {
-                    pizzaList.map(pizza => <PizzaCard key={pizza._id} pizza={pizza}></PizzaCard>)
+                    pizzaList?.map(pizza => <PizzaCard key={pizza._id} pizza={pizza}></PizzaCard>)
                 }
             </div>
         </div>

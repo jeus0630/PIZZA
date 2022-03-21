@@ -16,9 +16,9 @@ type Props = {
 export default function PizzaCard({ pizza }: Props) {
   return (
     <div className={styles.container}>
-      <Link href={`/product/${pizza._id}`}>
+      <Link href={`/product/${pizza._id}`} passHref>
         <div>
-          <Image src={pizza.img} alt="" width="500" height={500}></Image>
+          <Image src={pizza.img} alt="pizza image" width="500" height={500}></Image>
           <h1 className={styles.title}>{pizza.title}</h1>
           <span className={styles.price}>${pizza.prices[0]}</span>
           <p className={styles.desc}>

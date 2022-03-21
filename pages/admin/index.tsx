@@ -32,7 +32,7 @@ type Order = {
     _id: string;
 }
 
-export default function index({ products, orders }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Index({ products, orders }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
     const [productList, setProductList] = useState(products);
     const [orderList, setorderList] = useState(orders);

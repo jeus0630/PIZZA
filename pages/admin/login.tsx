@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 type Props = {}
 
-export default function login({ }: Props) {
+export default function Login({ }: Props) {
 
     const [info, setInfo] = useState({
         username: '',

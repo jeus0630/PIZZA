@@ -46,14 +46,14 @@ export default function Order({ data }: InferGetServerSidePropsType<typeof getSe
                 </div>
                 <div className={styles.row}>
                     <div className={statusClass(0)}>
-                        <Image src="/img/paid.png" width={30} height={30} alt=""></Image>
+                        <Image src="/img/paid.png" width={30} height={30} alt="paid img"></Image>
                         <span>Payment</span>
                         <div className={styles.checkdIcon}>
-                            <Image src="/img/checked.png" width={20} height={20} alt=""></Image>
+                            <Image src="/img/checked.png" width={20} height={20} alt="check img"></Image>
                         </div>
                     </div>
                     <div className={statusClass(1)}>
-                        <Image src="/img/bake.png" width={30} height={30} alt="" />
+                        <Image src="/img/bake.png" width={30} height={30} alt="bake img" />
                         <span>Preparing</span>
                         <div className={styles.checkedIcon}>
                             <Image
@@ -61,12 +61,12 @@ export default function Order({ data }: InferGetServerSidePropsType<typeof getSe
                                 src="/img/checked.png"
                                 width={20}
                                 height={20}
-                                alt=""
+                                alt="checked icon"
                             />
                         </div>
                     </div>
                     <div className={statusClass(2)}>
-                        <Image src="/img/bike.png" width={30} height={30} alt="" />
+                        <Image src="/img/bike.png" width={30} height={30} alt="bike img" />
                         <span>On the way</span>
                         <div className={styles.checkedIcon}>
                             <Image
@@ -74,12 +74,12 @@ export default function Order({ data }: InferGetServerSidePropsType<typeof getSe
                                 src="/img/checked.png"
                                 width={20}
                                 height={20}
-                                alt=""
+                                alt="checked icon"
                             />
                         </div>
                     </div>
                     <div className={statusClass(3)}>
-                        <Image src="/img/delivered.png" width={30} height={30} alt="" />
+                        <Image src="/img/delivered.png" width={30} height={30} alt="delivered img" />
                         <span>Delivered</span>
                         <div className={styles.checkedIcon}>
                             <Image
@@ -87,7 +87,7 @@ export default function Order({ data }: InferGetServerSidePropsType<typeof getSe
                                 src="/img/checked.png"
                                 width={20}
                                 height={20}
-                                alt=""
+                                alt="checked icon"
                             />
                         </div>
                     </div>
@@ -116,7 +116,7 @@ export default function Order({ data }: InferGetServerSidePropsType<typeof getSe
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     try {
-        const res = await fetch(`http://localhost:3000/api/orders/${params.id}`);
+        const res = await fetch(`http://localhost:3000/api/orders/${params?.id}`);
         const data = await res.json();
 
         return {

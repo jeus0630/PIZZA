@@ -129,7 +129,7 @@ export default function Product({ pizza }: InferGetServerSidePropsType<typeof ge
         <div className={styles.container}>
             <div className={styles.left}>
                 <div className={styles.imgContainer}>
-                    <Image src={pizza.img} alt="" layout="fill" objectFit="contain"></Image>
+                    <Image src={pizza.img} alt="pizza img" layout="fill" objectFit="contain"></Image>
                 </div>
             </div>
             <div className={styles.right}>
@@ -139,15 +139,15 @@ export default function Product({ pizza }: InferGetServerSidePropsType<typeof ge
                 <h3 className={styles.choose}>Choose the size</h3>
                 <div className={styles.sizes}>
                     <div className={styles.size} onClick={() => sizeHandler(0)}>
-                        <Image src="/img/size.png" layout="fill" alt=""></Image>
+                        <Image src="/img/size.png" layout="fill" alt="size sm"></Image>
                         <span className={styles.number}>Small</span>
                     </div>
                     <div className={styles.size} onClick={() => sizeHandler(1)}>
-                        <Image src="/img/size.png" layout="fill" alt=""></Image>
+                        <Image src="/img/size.png" layout="fill" alt="size md"></Image>
                         <span className={styles.number}>Medium</span>
                     </div>
                     <div className={styles.size} onClick={() => sizeHandler(2)}>
-                        <Image src="/img/size.png" layout="fill" alt=""></Image>
+                        <Image src="/img/size.png" layout="fill" alt="size lg"></Image>
                         <span className={styles.number}>Large</span>
                     </div>
                 </div>
@@ -181,7 +181,7 @@ export default function Product({ pizza }: InferGetServerSidePropsType<typeof ge
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     try {
-        const res = await fetch(`http://localhost:3000/api/products/${params.id}`);
+        const res = await fetch(`http://localhost:3000/api/products/${params?.id}`);
         const data = await res.json();
 
         return {
