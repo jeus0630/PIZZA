@@ -8,6 +8,8 @@ import { totalmem } from "os";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { addCart } from "../../redux/cartSlice";
+import ProductModel from "../../models/Product";
+import dbConnect from "../../util/mongo";
 
 type Props = {}
 
@@ -181,16 +183,16 @@ export default function Product({ pizza }: InferGetServerSidePropsType<typeof ge
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     try {
-        const res = await fetch(`https://restaurant-jeus0630.vercel.app//api/products/${params?.id}`);
-        const data = await res.json();
+        await dbConnect();
+
+        const product = await ProductModel.findById(params?.id);
 
         return {
             props: {
-                pizza: data
+                pizza: product
             }
         }
     } catch (err) {
-        console.log(err);
 
         return {
             props: {

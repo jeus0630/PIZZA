@@ -22,9 +22,7 @@ export default async function handler(
     if (method === "GET") {
         try {
             const products = await Product.find({});
-            res.setHeader("Access-Control-Allow-Origin","*");
             res.status(200).json(products);
-
         } catch (err: any) {
             res.status(500).json(err);
         }

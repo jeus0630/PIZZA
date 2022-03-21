@@ -5,6 +5,9 @@ import { InferGetServerSidePropsType } from 'next'
 import { GetServerSideProps } from 'next'
 import { useState } from 'react';
 import NewPizza from '../../components/NewPizza';
+import Product from '../../models/Product';
+import Order from '../../models/Order';
+import dbConnect from '../../util/mongo';
 
 type Props = {}
 
@@ -108,7 +111,7 @@ export default function Index({ products, orders }: InferGetServerSidePropsType<
                     </thead>
                     <tbody>
                         {
-                            productList.map(product => (
+                            productList.length && productList.map(product => (
                                 <tr className={styles.trTitle} key={product._id}>
                                     <td>
                                         <Image
@@ -151,7 +154,7 @@ export default function Index({ products, orders }: InferGetServerSidePropsType<
                     </thead>
                     <tbody>
                         {
-                            orderList.map(order => (
+                            orderList.length && orderList.map(order => (
                                 <tr className={styles.trTitle} key={order._id}>
                                     <td>
                                         {
@@ -189,11 +192,10 @@ export const getServerSideProps: GetServerSideProps<{ products: Product[], order
     }
 
     try {
-        const productRes = await fetch(`https://restaurant-jeus0630.vercel.app//api/products/`);
-        const products = await productRes.json();
+        await dbConnect();
 
-        const orderRes = await fetch(`https://restaurant-jeus0630.vercel.app//api/orders`);
-        const orders = await orderRes.json();
+        const products = await Product.find({});
+        const orders = await Order.find();
 
         return {
             props: {

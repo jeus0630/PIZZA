@@ -5,6 +5,8 @@ import Featrued from '../components/Featrued'
 import PizzaList from '../components/PizzaList'
 import { InferGetServerSidePropsType } from 'next'
 import { GetServerSideProps } from 'next'
+import Product from '../models/Product'
+import dbConnect from '../util/mongo'
 
 type Data = {
   _id: string,
@@ -16,6 +18,8 @@ type Data = {
 }[]
 
 const Home: NextPage = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  console.log(data);
+
   return (
     <div>
       <Head>
@@ -31,8 +35,9 @@ const Home: NextPage = ({ data }: InferGetServerSidePropsType<typeof getServerSi
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    const res = await fetch(`https://restaurant-jeus0630.vercel.app/api/products`);
-    const data: Data = await res.json();
+    
+    await dbConnect();
+    const data = JSON.parse(JSON.stringify(await Product.find({})));
 
     return {
       props: {

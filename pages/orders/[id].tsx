@@ -2,6 +2,8 @@ import Image from "next/image"
 import styles from "../../styles/Order.module.scss"
 import { InferGetServerSidePropsType } from 'next'
 import { GetServerSideProps } from 'next'
+import OrderModel from "../../models/Order";
+import dbConnect from "../../util/mongo";
 
 type Props = {}
 
@@ -116,8 +118,9 @@ export default function Order({ data }: InferGetServerSidePropsType<typeof getSe
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     try {
-        const res = await fetch(`https://restaurant-jeus0630.vercel.app//api/orders/${params?.id}`);
-        const data = await res.json();
+        await dbConnect();
+        
+        const data = await OrderModel.findById(params?.id);
 
         return {
             props: {
