@@ -116,7 +116,7 @@ export default function Order({ data }: InferGetServerSidePropsType<typeof getSe
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     try {
-        const res = await fetch(`http://localhost:3000/api/orders/${params?.id}`);
+        const res = await fetch(`/api/orders/${params?.id}`);
         const data = await res.json();
 
         return {

@@ -45,7 +45,7 @@ export default function Index({ products, orders }: InferGetServerSidePropsType<
 
     const productDeleteHandler = async (id: string) => {
         try {
-            const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+            const res = await fetch(`/api/products/${id}`, {
                 method: "DELETE"
             });
             const data = await res.json();
@@ -63,7 +63,7 @@ export default function Index({ products, orders }: InferGetServerSidePropsType<
         const currentStatus = item.status;
 
         try {
-            const res = await fetch(`http://localhost:3000/api/orders/${id}`, {
+            const res = await fetch(`/api/orders/${id}`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
@@ -189,10 +189,10 @@ export const getServerSideProps: GetServerSideProps<{ products: Product[], order
     }
 
     try {
-        const productRes = await fetch(`http://localhost:3000/api/products/`);
+        const productRes = await fetch(`/api/products/`);
         const products = await productRes.json();
 
-        const orderRes = await fetch(`http://localhost:3000/api/orders`);
+        const orderRes = await fetch(`/api/orders`);
         const orders = await orderRes.json();
 
         return {
