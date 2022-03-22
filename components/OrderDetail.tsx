@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import styles from "../styles/OrderDetail.module.scss";
 import { useState } from 'react';
 
@@ -10,9 +10,10 @@ type Props = {
         method: number;
     }) => Promise<void>;
     total: number;
+    setCash: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function ({ total, createOrder }: Props) {
+export default function ({ total, createOrder, setCash }: Props) {
     const [info, setInfo] = useState({
         name: "",
         address: ""
@@ -34,6 +35,9 @@ export default function ({ total, createOrder }: Props) {
     return (
         <div className={styles.container}>
             <div className={styles.wrapper}>
+                <div className={styles.closeBtn}>
+                    <button onClick={() => { setCash(false) }}>X</button>
+                </div>
                 <h1 className={styles.title}>You Will pay ${total} after delivery</h1>
                 <div className={styles.item}>
                     <label htmlFor="" className={styles.label}>Name Surname</label>

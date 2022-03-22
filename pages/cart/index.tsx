@@ -217,7 +217,7 @@ export default function Index({ }: Props) {
             </div>
             {
                 cash && (
-                    <OrderDetail total={total} createOrder={createOrder}></OrderDetail>
+                    <OrderDetail total={total} createOrder={createOrder} setCash={setCash}></OrderDetail>
                 )
             }
         </div >
