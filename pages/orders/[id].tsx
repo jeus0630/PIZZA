@@ -120,7 +120,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     try {
         await dbConnect();
         
-        const data = await OrderModel.findById(params?.id);
+        const data = JSON.parse(JSON.stringify(await OrderModel.findById(params?.id)));
 
         return {
             props: {

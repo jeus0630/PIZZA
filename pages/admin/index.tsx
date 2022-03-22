@@ -158,7 +158,7 @@ export default function Index({ products, orders }: InferGetServerSidePropsType<
                                 <tr className={styles.trTitle} key={order._id}>
                                     <td>
                                         {
-                                            "6116181613".slice(0, 5)
+                                            order._id.slice(0, 5)
                                         }...
                                     </td>
                                     <td>{order.customer}</td>
