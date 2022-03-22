@@ -194,8 +194,9 @@ export const getServerSideProps: GetServerSideProps<{ products: Product[], order
     try {
         await dbConnect();
 
-        const products = await Product.find({});
-        const orders = await Order.find();
+        const products = JSON.parse(JSON.stringify(await Product.find({})));
+        const orders = JSON.parse(JSON.stringify(await Order.find()));
+
 
         return {
             props: {
