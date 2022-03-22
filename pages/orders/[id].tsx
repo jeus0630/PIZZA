@@ -9,7 +9,7 @@ type Props = {}
 
 export default function Order({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
-    const status = 0;
+    const status = data.status;
 
     const statusClass = (index: number) => {
         if (index - status < 1) return styles.done;
@@ -119,7 +119,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     try {
         await dbConnect();
-        
+
         const data = JSON.parse(JSON.stringify(await OrderModel.findById(params?.id)));
 
         return {
